@@ -32,8 +32,8 @@ GPIO_EV4 = 16
 
 GPIO_PUMP = 18
 
-TIMER_PUMP = 3
-TIMER_EV = 5
+TIMER_PUMP = 20
+TIMER_EV = 8
 
 received_string = "void"
 received_string_old = "not_void"
