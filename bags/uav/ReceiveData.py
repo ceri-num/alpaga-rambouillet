@@ -36,15 +36,28 @@ TIMER_PUMP = 3
 TIMER_EV = 5
 
 received_string = "void"
+received_string_old = "not_void"
+
+running_process = False
+
+def waitProcess():
+    global running_process
+    wU = True
+    while wU == True:
+        if running_process == False :
+            wU = False
+            break
+        time.sleep(0.1)
+
+        print("test")
+        print(running_process)
 
 def data_receive_callback(xbee_message):
-    global received_string
-
-    received_string = "void"
+    global received_string, running_process
 
     received_string = xbee_message.data.decode()
 
-    if received_string != "void":
+    if received_string != "void" and received_string !="End":
 
         print("From %s >> %s" % (xbee_message.remote_device.get_64bit_addr(),
                             received_string))
@@ -98,8 +111,10 @@ def data_receive_callback(xbee_message):
             time.sleep(TIMER_EV)
             GPIO.output(GPIO_EV4, GPIO.HIGH)
 
+    running_process = False 
+
 def main():
-    global received_string
+    global received_string, running_process, received_string_old
 
     print(" +-----------------------------------------+")
     print(" | Xbee python software, receive data and activate relay according to the message |")
@@ -123,12 +138,22 @@ def main():
     try:
 
         device.open()
+
+        device.add_data_received_callback(data_receive_callback)
         
         while (received_string != "End") :
 
             print("Waiting for data...\n")
 
-            device.add_data_received_callback(data_receive_callback)
+            if(received_string != "void" and received_string_old != received_string and received_string !="End"):
+
+                running_process = True
+
+                waitProcess()
+
+                print("Done")
+
+                received_string_old = received_string
 
     finally:
         if device is not None and device.is_open():
