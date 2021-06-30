@@ -16,15 +16,6 @@
 
 import RPi.GPIO as GPIO
 
-GPIO.setwarnings(False)
-
-# to use Raspberry Pi board pin numbers
-GPIO.setmode(GPIO.BOARD)
-
-# set up the GPIO channels - one input and one output
-GPIO.setup(11, GPIO.OUT)
-GPIO.output(11, GPIO.LOW)
-
 from digi.xbee.devices import XBeeDevice
 
 # TODO: Replace with the serial port where your local module is connected to. 
@@ -32,11 +23,30 @@ PORT = "COM1"
 # TODO: Replace with the baud rate of your local module.
 BAUD_RATE = 9600
 
+GPIO_EV1 = 11
+GPIO_EV2 = 13
+GPIO_EV3 = 15
+GPIO_EV4 = 16
+
+GPIO_PUMP = 18
 
 def main():
     print(" +-----------------------------------------+")
-    print(" | XBee Python Library Receive Data Sample |")
+    print(" | Xbee python software, receive data and activate relay according to the message |")
     print(" +-----------------------------------------+\n")
+
+    GPIO.setwarnings(False)
+
+    # to use Raspberry Pi board pin numbers
+    GPIO.setmode(GPIO.BOARD)
+
+    # set up the GPIO channels - one input and one output
+    GPIO.setup(GPIO_EV1, GPIO.OUT)
+    GPIO.setup(GPIO_EV2, GPIO.OUT)
+    GPIO.setup(GPIO_EV3, GPIO.OUT)
+    GPIO.setup(GPIO_EV4, GPIO.OUT)
+    
+    GPIO.setup(GPIO_PUMP, GPIO.OUT) 
 
     device = XBeeDevice(PORT, BAUD_RATE)
 
@@ -44,12 +54,27 @@ def main():
         device.open()
 
         def data_receive_callback(xbee_message):
+            received_string = xbee_message.data.decode()
+
             print("From %s >> %s" % (xbee_message.remote_device.get_64bit_addr(),
-                                     xbee_message.data.decode()))
+                                     received_string))
+
+            if(int(received_string) == 1):
+                GPIO.output(GPIO_EV1, GPIO.LOW)
+
+            elif(int(received_string) == 2):
+                GPIO.output(GPIO_EV2, GPIO.LOW)
+
+            elif(int(received_string) == 3):
+                GPIO.output(GPIO_EV3, GPIO.LOW)
+
+            elif(int(received_string) == 4):
+                GPIO.output(GPIO_EV4, GPIO.LOW)
 
         device.add_data_received_callback(data_receive_callback)
 
         print("Waiting for data...\n")
+
         input()
 
     finally:
