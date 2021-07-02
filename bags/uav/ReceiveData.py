@@ -114,10 +114,7 @@ def main():
     finally:
         if device is not None and device.is_open():
             device.close()
-
-    except KeyboardInterrupt:
         GPIO.cleanup()
-
-
+        
 if __name__ == '__main__':
     main()
