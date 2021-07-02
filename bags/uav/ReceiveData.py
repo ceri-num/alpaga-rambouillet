@@ -18,6 +18,8 @@ import RPi.GPIO as GPIO
 
 from digi.xbee.devices import XBeeDevice
 
+import time
+
 # TODO: Replace with the serial port where your local module is connected to. 
 PORT = "/dev/ttyUSB0"
 # TODO: Replace with the baud rate of your local module.
@@ -29,6 +31,9 @@ GPIO_EV3 = 15
 GPIO_EV4 = 16
 
 GPIO_PUMP = 18
+
+TIMER_PUMP = 3
+TIMER_EV = 5
 
 def main():
     print(" +-----------------------------------------+")
@@ -60,20 +65,44 @@ def main():
                                      received_string))
 
             if(int(received_string) == 1):
-                GPIO.output(GPIO_EV1, GPIO.LOW)
                 print("Activating the first EV!")
+                GPIO.output(GPIO_PUMP, GPIO.HIGH)
+                time.sleep(TIMER_PUMP)
+                GPIO.output(GPIO_PUMP, GPIO.LOW)
+
+                GPIO.output(GPIO_EV1, GPIO.LOW)
+                time.sleep(TIMER_EV)
+                GPIO.output(GPIO_EV1, GPIO.HIGH)
 
             elif(int(received_string) == 2):
-                GPIO.output(GPIO_EV2, GPIO.LOW)
                 print("Activating the second EV!")
+                GPIO.output(GPIO_PUMP, GPIO.HIGH)
+                time.sleep(TIMER_PUMP)
+                GPIO.output(GPIO_PUMP, GPIO.LOW)
+
+                GPIO.output(GPIO_EV2, GPIO.LOW)
+                time.sleep(TIMER_EV)
+                GPIO.output(GPIO_EV2, GPIO.HIGH)
 
             elif(int(received_string) == 3):
-                GPIO.output(GPIO_EV3, GPIO.LOW)
                 print("Activating the third EV!")
+                GPIO.output(GPIO_PUMP, GPIO.HIGH)
+                time.sleep(TIMER_PUMP)
+                GPIO.output(GPIO_PUMP, GPIO.LOW)
+
+                GPIO.output(GPIO_EV3, GPIO.LOW)
+                time.sleep(TIMER_EV)
+                GPIO.output(GPIO_EV3, GPIO.HIGH)
 
             elif(int(received_string) == 4):
-                GPIO.output(GPIO_EV4, GPIO.LOW)
                 print("Activating the fourth EV!")
+                GPIO.output(GPIO_PUMP, GPIO.HIGH)
+                time.sleep(TIMER_PUMP)
+                GPIO.output(GPIO_PUMP, GPIO.LOW)
+
+                GPIO.output(GPIO_EV4, GPIO.LOW)
+                time.sleep(TIMER_EV)
+                GPIO.output(GPIO_EV4, GPIO.HIGH)
 
 
         device.add_data_received_callback(data_receive_callback)
@@ -85,6 +114,9 @@ def main():
     finally:
         if device is not None and device.is_open():
             device.close()
+
+    except KeyboardInterrupt:
+        GPIO.cleanup()
 
 
 if __name__ == '__main__':
