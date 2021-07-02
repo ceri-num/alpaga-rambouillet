@@ -70,6 +70,8 @@ def main():
                 time.sleep(TIMER_PUMP)
                 GPIO.output(GPIO_PUMP, GPIO.LOW)
 
+                time.sleep(0.5)
+
                 GPIO.output(GPIO_EV1, GPIO.LOW)
                 time.sleep(TIMER_EV)
                 GPIO.output(GPIO_EV1, GPIO.HIGH)
@@ -79,6 +81,8 @@ def main():
                 GPIO.output(GPIO_PUMP, GPIO.HIGH)
                 time.sleep(TIMER_PUMP)
                 GPIO.output(GPIO_PUMP, GPIO.LOW)
+
+                time.sleep(0.5)
 
                 GPIO.output(GPIO_EV2, GPIO.LOW)
                 time.sleep(TIMER_EV)
@@ -90,6 +94,8 @@ def main():
                 time.sleep(TIMER_PUMP)
                 GPIO.output(GPIO_PUMP, GPIO.LOW)
 
+                time.sleep(0.5)
+
                 GPIO.output(GPIO_EV3, GPIO.LOW)
                 time.sleep(TIMER_EV)
                 GPIO.output(GPIO_EV3, GPIO.HIGH)
@@ -99,6 +105,8 @@ def main():
                 GPIO.output(GPIO_PUMP, GPIO.HIGH)
                 time.sleep(TIMER_PUMP)
                 GPIO.output(GPIO_PUMP, GPIO.LOW)
+
+                time.sleep(0.5)
 
                 GPIO.output(GPIO_EV4, GPIO.LOW)
                 time.sleep(TIMER_EV)
