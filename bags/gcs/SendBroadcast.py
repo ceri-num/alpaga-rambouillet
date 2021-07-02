@@ -25,7 +25,7 @@ DATA_TO_SEND = "Hello XBee!"
 def main():
 	global DATA_TO_SEND
 	print(" +------------------------------------------------+")
-	print(" | XBee Python Library Send Broadcast Data Sample |")
+	print(" | Xbee python software, send data to activate the relay according to the message  |")
 	print(" +------------------------------------------------+\n")
 
 	device = XBeeDevice(PORT, BAUD_RATE)
@@ -35,7 +35,7 @@ def main():
         
 		while DATA_TO_SEND != "End" :
         	
-			new_data = input('Enter the command to send to the Arduino (Left, Center, Right) // End to quit the program : ')
+			new_data = input('Enter the command to send to the Raspberry Pi in the UAV to activate the corresponding ElectroVane (1, 2, 3 or 4) :')
 			
 			DATA_TO_SEND = new_data.rstrip("\n")
         	
