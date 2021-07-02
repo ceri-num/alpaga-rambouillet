@@ -1,4 +1,4 @@
-# Copyright 2017, Digi International Inc.
+l# Copyright 2017, Digi International Inc.
 #
 # Permission to use, copy, modify, and/or distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -41,12 +41,12 @@ def main():
     GPIO.setmode(GPIO.BOARD)
 
     # set up the GPIO channels - one input and one output
-    GPIO.setup(GPIO_EV1, GPIO.OUT)
-    GPIO.setup(GPIO_EV2, GPIO.OUT)
-    GPIO.setup(GPIO_EV3, GPIO.OUT)
-    GPIO.setup(GPIO_EV4, GPIO.OUT)
+    GPIO.setup(GPIO_EV1, GPIO.OUT, initial = 1)
+    GPIO.setup(GPIO_EV2, GPIO.OUT, initial = 1)
+    GPIO.setup(GPIO_EV3, GPIO.OUT, initial = 1)
+    GPIO.setup(GPIO_EV4, GPIO.OUT, initial = 1)
     
-    GPIO.setup(GPIO_PUMP, GPIO.OUT) 
+    GPIO.setup(GPIO_PUMP, GPIO.OUT, initial = 0) 
 
     device = XBeeDevice(PORT, BAUD_RATE)
 
@@ -61,15 +61,20 @@ def main():
 
             if(int(received_string) == 1):
                 GPIO.output(GPIO_EV1, GPIO.LOW)
+                print("Activating the first EV!")
 
             elif(int(received_string) == 2):
                 GPIO.output(GPIO_EV2, GPIO.LOW)
+                print("Activating the second EV!")
 
             elif(int(received_string) == 3):
                 GPIO.output(GPIO_EV3, GPIO.LOW)
+                print("Activating the third EV!")
 
             elif(int(received_string) == 4):
                 GPIO.output(GPIO_EV4, GPIO.LOW)
+                print("Activating the fourth EV!")
+
 
         device.add_data_received_callback(data_receive_callback)
 
