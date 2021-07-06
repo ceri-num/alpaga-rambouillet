@@ -24,6 +24,7 @@ DATA_TO_SEND = "Hello XBee!"
 
 def main():
 	global DATA_TO_SEND
+
 	print(" +------------------------------------------------+")
 	print(" | Xbee python software, send data to activate the relay according to the message  |")
 	print(" +------------------------------------------------+\n")
@@ -44,6 +45,8 @@ def main():
 			device.send_data_broadcast(DATA_TO_SEND)
 
 			print("Success")
+
+		print("Close the communication with UAV")
 
 	finally:
 		if device is not None and device.is_open():

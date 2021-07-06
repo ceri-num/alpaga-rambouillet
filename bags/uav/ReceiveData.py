@@ -40,6 +40,8 @@ running_process = False
 received_string = "void"
 
 def data_receive_callback(xbee_message):
+    global received_string, running_process
+
     received_string = xbee_message.data.decode()
 
     print("From %s >> %s" % (xbee_message.remote_device.get_64bit_addr(),
@@ -101,6 +103,8 @@ def data_receive_callback(xbee_message):
         print("Actually running on another electrovane!")
 
 def main():
+    global received_string
+
     print(" +-----------------------------------------+")
     print(" | Xbee python software, receive data and activate relay according to the message |")
     print(" +-----------------------------------------+\n")
@@ -123,9 +127,13 @@ def main():
     try:
         device.open()
 
-        device.add_data_received_callback(data_receive_callback)
+        while received_string != "End" :
 
-        print("Waiting for data...\n")
+            device.add_data_received_callback(data_receive_callback)
+
+            print("Waiting for data...\n")
+
+        print("Close de communication with ground !")
 
     finally:
         if device is not None and device.is_open():
