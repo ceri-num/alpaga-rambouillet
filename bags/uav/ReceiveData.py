@@ -35,6 +35,71 @@ GPIO_PUMP = 18
 TIMER_PUMP = 3
 TIMER_EV = 5
 
+running_process = False
+
+received_string = "void"
+
+def data_receive_callback(xbee_message):
+    received_string = xbee_message.data.decode()
+
+    print("From %s >> %s" % (xbee_message.remote_device.get_64bit_addr(),
+                            received_string))
+
+    if(not running_process && received_string != "void"):
+
+        running_process = True
+
+        if(int(received_string) == 1):
+            print("Activating the first EV!")
+            GPIO.output(GPIO_PUMP, GPIO.HIGH)
+            time.sleep(TIMER_PUMP)
+            GPIO.output(GPIO_PUMP, GPIO.LOW)
+
+            time.sleep(0.5)
+
+            GPIO.output(GPIO_EV1, GPIO.LOW)
+            time.sleep(TIMER_EV)
+            GPIO.output(GPIO_EV1, GPIO.HIGH)
+
+        elif(int(received_string) == 2):
+            print("Activating the second EV!")
+            GPIO.output(GPIO_PUMP, GPIO.HIGH)
+            time.sleep(TIMER_PUMP)
+            GPIO.output(GPIO_PUMP, GPIO.LOW)
+
+            time.sleep(0.5)
+
+            GPIO.output(GPIO_EV2, GPIO.LOW)
+            time.sleep(TIMER_EV)
+            GPIO.output(GPIO_EV2, GPIO.HIGH)
+
+        elif(int(received_string) == 3):
+            print("Activating the third EV!")
+            GPIO.output(GPIO_PUMP, GPIO.HIGH)
+            time.sleep(TIMER_PUMP)
+            GPIO.output(GPIO_PUMP, GPIO.LOW)
+
+            time.sleep(0.5)
+
+            GPIO.output(GPIO_EV3, GPIO.LOW)
+            time.sleep(TIMER_EV)
+            GPIO.output(GPIO_EV3, GPIO.HIGH)
+
+        elif(int(received_string) == 4):
+            print("Activating the fourth EV!")
+            GPIO.output(GPIO_PUMP, GPIO.HIGH)
+            time.sleep(TIMER_PUMP)
+            GPIO.output(GPIO_PUMP, GPIO.LOW)
+
+            time.sleep(0.5)
+
+            GPIO.output(GPIO_EV4, GPIO.LOW)
+            time.sleep(TIMER_EV)
+            GPIO.output(GPIO_EV4, GPIO.HIGH)
+
+    else :
+        print("Actually running on another electrovane!")
+
 def main():
     print(" +-----------------------------------------+")
     print(" | Xbee python software, receive data and activate relay according to the message |")
@@ -58,71 +123,13 @@ def main():
     try:
         device.open()
 
-        def data_receive_callback(xbee_message):
-            received_string = xbee_message.data.decode()
-
-            print("From %s >> %s" % (xbee_message.remote_device.get_64bit_addr(),
-                                     received_string))
-
-            if(int(received_string) == 1):
-                print("Activating the first EV!")
-                GPIO.output(GPIO_PUMP, GPIO.HIGH)
-                time.sleep(TIMER_PUMP)
-                GPIO.output(GPIO_PUMP, GPIO.LOW)
-
-                time.sleep(0.5)
-
-                GPIO.output(GPIO_EV1, GPIO.LOW)
-                time.sleep(TIMER_EV)
-                GPIO.output(GPIO_EV1, GPIO.HIGH)
-
-            elif(int(received_string) == 2):
-                print("Activating the second EV!")
-                GPIO.output(GPIO_PUMP, GPIO.HIGH)
-                time.sleep(TIMER_PUMP)
-                GPIO.output(GPIO_PUMP, GPIO.LOW)
-
-                time.sleep(0.5)
-
-                GPIO.output(GPIO_EV2, GPIO.LOW)
-                time.sleep(TIMER_EV)
-                GPIO.output(GPIO_EV2, GPIO.HIGH)
-
-            elif(int(received_string) == 3):
-                print("Activating the third EV!")
-                GPIO.output(GPIO_PUMP, GPIO.HIGH)
-                time.sleep(TIMER_PUMP)
-                GPIO.output(GPIO_PUMP, GPIO.LOW)
-
-                time.sleep(0.5)
-
-                GPIO.output(GPIO_EV3, GPIO.LOW)
-                time.sleep(TIMER_EV)
-                GPIO.output(GPIO_EV3, GPIO.HIGH)
-
-            elif(int(received_string) == 4):
-                print("Activating the fourth EV!")
-                GPIO.output(GPIO_PUMP, GPIO.HIGH)
-                time.sleep(TIMER_PUMP)
-                GPIO.output(GPIO_PUMP, GPIO.LOW)
-
-                time.sleep(0.5)
-
-                GPIO.output(GPIO_EV4, GPIO.LOW)
-                time.sleep(TIMER_EV)
-                GPIO.output(GPIO_EV4, GPIO.HIGH)
-
-
         device.add_data_received_callback(data_receive_callback)
 
         print("Waiting for data...\n")
 
-        input()
-
     finally:
         if device is not None and device.is_open():
             device.close()
-        GPIO.cleanup()
         
 if __name__ == '__main__':
     main()
