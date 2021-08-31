@@ -47,7 +47,7 @@ def data_receive_callback(xbee_message):
     print("From %s >> %s" % (xbee_message.remote_device.get_64bit_addr(),
                             received_string))
 
-    if(not running_process && received_string != "void"):
+    if(not running_process and received_string != "void"):
 
         running_process = True
 
