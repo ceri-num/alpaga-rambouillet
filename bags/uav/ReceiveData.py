@@ -63,6 +63,8 @@ def data_receive_callback(xbee_message):
             time.sleep(TIMER_EV)
             GPIO.output(GPIO_EV1, GPIO.HIGH)
 
+            running_process = False
+
         elif(int(received_string) == 2):
             print("Activating the second EV!")
             GPIO.output(GPIO_PUMP, GPIO.HIGH)
@@ -74,6 +76,8 @@ def data_receive_callback(xbee_message):
             GPIO.output(GPIO_EV2, GPIO.LOW)
             time.sleep(TIMER_EV)
             GPIO.output(GPIO_EV2, GPIO.HIGH)
+
+            running_process = False
 
         elif(int(received_string) == 3):
             print("Activating the third EV!")
@@ -87,6 +91,8 @@ def data_receive_callback(xbee_message):
             time.sleep(TIMER_EV)
             GPIO.output(GPIO_EV3, GPIO.HIGH)
 
+            running_process = False
+
         elif(int(received_string) == 4):
             print("Activating the fourth EV!")
             GPIO.output(GPIO_PUMP, GPIO.HIGH)
@@ -98,6 +104,8 @@ def data_receive_callback(xbee_message):
             GPIO.output(GPIO_EV4, GPIO.LOW)
             time.sleep(TIMER_EV)
             GPIO.output(GPIO_EV4, GPIO.HIGH)
+
+            running_process = False
 
     else :
         print("Actually running on another electrovane!")
@@ -133,7 +141,7 @@ def main():
 
             print("Waiting for data...\n")
 
-        print("Close de communication with ground !")
+        print("Close the communication with ground !")
 
     finally:
         if device is not None and device.is_open():
