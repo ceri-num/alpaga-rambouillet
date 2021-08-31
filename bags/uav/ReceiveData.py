@@ -40,79 +40,12 @@ running_process = False
 received_string = "void"
 
 def data_receive_callback(xbee_message):
-    global received_string, running_process
+    global received_string
 
     received_string = xbee_message.data.decode()
 
-    if(not running_process and received_string != "void"):
-
-        print("From %s >> %s" % (xbee_message.remote_device.get_64bit_addr(),
+    print("From %s >> %s" % (xbee_message.remote_device.get_64bit_addr(),
                             received_string))
-
-        running_process = True
-
-        if(int(received_string) == 1):
-            print("Activating the first EV!")
-            GPIO.output(GPIO_PUMP, GPIO.HIGH)
-            time.sleep(TIMER_PUMP)
-            GPIO.output(GPIO_PUMP, GPIO.LOW)
-
-            time.sleep(0.5)
-
-            GPIO.output(GPIO_EV1, GPIO.LOW)
-            time.sleep(TIMER_EV)
-            GPIO.output(GPIO_EV1, GPIO.HIGH)
-
-            running_process = False
-            received_string = "void"
-
-        elif(int(received_string) == 2):
-            print("Activating the second EV!")
-            GPIO.output(GPIO_PUMP, GPIO.HIGH)
-            time.sleep(TIMER_PUMP)
-            GPIO.output(GPIO_PUMP, GPIO.LOW)
-
-            time.sleep(0.5)
-
-            GPIO.output(GPIO_EV2, GPIO.LOW)
-            time.sleep(TIMER_EV)
-            GPIO.output(GPIO_EV2, GPIO.HIGH)
-
-            running_process = False
-            received_string = "void"
-
-        elif(int(received_string) == 3):
-            print("Activating the third EV!")
-            GPIO.output(GPIO_PUMP, GPIO.HIGH)
-            time.sleep(TIMER_PUMP)
-            GPIO.output(GPIO_PUMP, GPIO.LOW)
-
-            time.sleep(0.5)
-
-            GPIO.output(GPIO_EV3, GPIO.LOW)
-            time.sleep(TIMER_EV)
-            GPIO.output(GPIO_EV3, GPIO.HIGH)
-
-            running_process = False
-            received_string = "void"
-
-        elif(int(received_string) == 4):
-            print("Activating the fourth EV!")
-            GPIO.output(GPIO_PUMP, GPIO.HIGH)
-            time.sleep(TIMER_PUMP)
-            GPIO.output(GPIO_PUMP, GPIO.LOW)
-
-            time.sleep(0.5)
-
-            GPIO.output(GPIO_EV4, GPIO.LOW)
-            time.sleep(TIMER_EV)
-            GPIO.output(GPIO_EV4, GPIO.HIGH)
-
-            running_process = False
-            received_string = "void"
-
-    else :
-        print("Actually running on another electrovane!")
 
 def main():
     global received_string
@@ -144,6 +77,73 @@ def main():
         while received_string != "End" :
 
             device.add_data_received_callback(data_receive_callback)
+
+            if(not running_process and received_string != "void"):
+
+                running_process = True
+
+                if(int(received_string) == 1):
+                    print("Activating the first EV!")
+                    GPIO.output(GPIO_PUMP, GPIO.HIGH)
+                    time.sleep(TIMER_PUMP)
+                    GPIO.output(GPIO_PUMP, GPIO.LOW)
+
+                    time.sleep(0.5)
+
+                    GPIO.output(GPIO_EV1, GPIO.LOW)
+                    time.sleep(TIMER_EV)
+                    GPIO.output(GPIO_EV1, GPIO.HIGH)
+
+                    running_process = False
+                    received_string = "void"
+
+                elif(int(received_string) == 2):
+                    print("Activating the second EV!")
+                    GPIO.output(GPIO_PUMP, GPIO.HIGH)
+                    time.sleep(TIMER_PUMP)
+                    GPIO.output(GPIO_PUMP, GPIO.LOW)
+
+                    time.sleep(0.5)
+
+                    GPIO.output(GPIO_EV2, GPIO.LOW)
+                    time.sleep(TIMER_EV)
+                    GPIO.output(GPIO_EV2, GPIO.HIGH)
+
+                    running_process = False
+                    received_string = "void"
+
+                elif(int(received_string) == 3):
+                    print("Activating the third EV!")
+                    GPIO.output(GPIO_PUMP, GPIO.HIGH)
+                    time.sleep(TIMER_PUMP)
+                    GPIO.output(GPIO_PUMP, GPIO.LOW)
+
+                    time.sleep(0.5)
+
+                    GPIO.output(GPIO_EV3, GPIO.LOW)
+                    time.sleep(TIMER_EV)
+                    GPIO.output(GPIO_EV3, GPIO.HIGH)
+
+                    running_process = False
+                    received_string = "void"
+
+                elif(int(received_string) == 4):
+                    print("Activating the fourth EV!")
+                    GPIO.output(GPIO_PUMP, GPIO.HIGH)
+                    time.sleep(TIMER_PUMP)
+                    GPIO.output(GPIO_PUMP, GPIO.LOW)
+
+                    time.sleep(0.5)
+
+                    GPIO.output(GPIO_EV4, GPIO.LOW)
+                    time.sleep(TIMER_EV)
+                    GPIO.output(GPIO_EV4, GPIO.HIGH)
+
+                    running_process = False
+                    received_string = "void"
+
+            else :
+                print("Actually running on another electrovane!")
 
         print("Close the communication with ground !")
 
