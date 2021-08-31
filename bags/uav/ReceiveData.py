@@ -44,10 +44,10 @@ def data_receive_callback(xbee_message):
 
     received_string = xbee_message.data.decode()
 
-    print("From %s >> %s" % (xbee_message.remote_device.get_64bit_addr(),
-                            received_string))
-
     if(not running_process and received_string != "void"):
+
+        print("From %s >> %s" % (xbee_message.remote_device.get_64bit_addr(),
+                            received_string))
 
         running_process = True
 
@@ -64,6 +64,7 @@ def data_receive_callback(xbee_message):
             GPIO.output(GPIO_EV1, GPIO.HIGH)
 
             running_process = False
+            received_string = "void"
 
         elif(int(received_string) == 2):
             print("Activating the second EV!")
@@ -78,6 +79,7 @@ def data_receive_callback(xbee_message):
             GPIO.output(GPIO_EV2, GPIO.HIGH)
 
             running_process = False
+            received_string = "void"
 
         elif(int(received_string) == 3):
             print("Activating the third EV!")
@@ -92,6 +94,7 @@ def data_receive_callback(xbee_message):
             GPIO.output(GPIO_EV3, GPIO.HIGH)
 
             running_process = False
+            received_string = "void"
 
         elif(int(received_string) == 4):
             print("Activating the fourth EV!")
@@ -106,6 +109,7 @@ def data_receive_callback(xbee_message):
             GPIO.output(GPIO_EV4, GPIO.HIGH)
 
             running_process = False
+            received_string = "void"
 
     else :
         print("Actually running on another electrovane!")
@@ -135,11 +139,11 @@ def main():
     try:
         device.open()
 
+        print("Waiting for data...\n")
+
         while received_string != "End" :
 
             device.add_data_received_callback(data_receive_callback)
-
-            print("Waiting for data...\n")
 
         print("Close the communication with ground !")
 
