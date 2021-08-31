@@ -48,7 +48,7 @@ def data_receive_callback(xbee_message):
                             received_string))
 
 def main():
-    global received_string
+    global received_string, running_process
 
     print(" +-----------------------------------------+")
     print(" | Xbee python software, receive data and activate relay according to the message |")
