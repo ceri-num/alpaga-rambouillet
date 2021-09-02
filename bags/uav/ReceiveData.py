@@ -72,14 +72,15 @@ def main():
 
     device = XBeeDevice(PORT, BAUD_RATE)
 
-    try:
-        device.open()
+    device.open()
 
-        print("Waiting for data...\n")
+    while (not running_process and received_string != "End") :
 
-        device.add_data_received_callback(data_receive_callback)
+        try:
+            
+            print("Waiting for data...\n")
 
-        while (not running_process and received_string != "End") :
+            device.add_data_received_callback(data_receive_callback)
 
             if(received_string != "void"):
 
@@ -146,7 +147,7 @@ def main():
                     running_process = False
                     received_string = "void"
 
-        print("Close the communication with ground !")
+    print("Close the communication with ground !")
 
     finally:
         if device is not None and device.is_open():
