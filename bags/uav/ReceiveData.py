@@ -83,7 +83,6 @@ def main():
 
             if(received_string != "void"):
 
-<<<<<<< HEAD
                 running_process = True
 
                 if(int(received_string) == 1):
@@ -91,26 +90,15 @@ def main():
                     GPIO.output(GPIO_PUMP, GPIO.HIGH)
                     time.sleep(TIMER_PUMP)
                     GPIO.output(GPIO_PUMP, GPIO.LOW)
-=======
-                GPIO.output(GPIO_EV1, GPIO.LOW)
-                time.sleep(TIMER_EV)
-                GPIO.output(GPIO_EV1, GPIO.HIGH)
->>>>>>> parent of 9f8273c... Ajout d'un micro timer entre la fin de l'activation de la pompe et l'activation de l'EV
 
                     time.sleep(0.5)
 
-<<<<<<< HEAD
                     GPIO.output(GPIO_EV1, GPIO.LOW)
                     time.sleep(TIMER_EV)
                     GPIO.output(GPIO_EV1, GPIO.HIGH)
 
                     running_process = False
                     received_string = "void"
-=======
-                GPIO.output(GPIO_EV2, GPIO.LOW)
-                time.sleep(TIMER_EV)
-                GPIO.output(GPIO_EV2, GPIO.HIGH)
->>>>>>> parent of 9f8273c... Ajout d'un micro timer entre la fin de l'activation de la pompe et l'activation de l'EV
 
                 elif(int(received_string) == 2):
                     print("Activating the second EV!")
@@ -118,22 +106,16 @@ def main():
                     time.sleep(TIMER_PUMP)
                     GPIO.output(GPIO_PUMP, GPIO.LOW)
 
-<<<<<<< HEAD
                     time.sleep(0.5)
 
                     GPIO.output(GPIO_EV2, GPIO.LOW)
                     time.sleep(TIMER_EV)
                     GPIO.output(GPIO_EV2, GPIO.HIGH)
-=======
-                GPIO.output(GPIO_EV3, GPIO.LOW)
-                time.sleep(TIMER_EV)
-                GPIO.output(GPIO_EV3, GPIO.HIGH)
->>>>>>> parent of 9f8273c... Ajout d'un micro timer entre la fin de l'activation de la pompe et l'activation de l'EV
+
 
                     running_process = False
                     received_string = "void"
 
-<<<<<<< HEAD
                 elif(int(received_string) == 3):
                     print("Activating the third EV!")
                     GPIO.output(GPIO_PUMP, GPIO.HIGH)
@@ -141,11 +123,6 @@ def main():
                     GPIO.output(GPIO_PUMP, GPIO.LOW)
 
                     time.sleep(0.5)
-=======
-                GPIO.output(GPIO_EV4, GPIO.LOW)
-                time.sleep(TIMER_EV)
-                GPIO.output(GPIO_EV4, GPIO.HIGH)
->>>>>>> parent of 9f8273c... Ajout d'un micro timer entre la fin de l'activation de la pompe et l'activation de l'EV
 
                     GPIO.output(GPIO_EV3, GPIO.LOW)
                     time.sleep(TIMER_EV)
