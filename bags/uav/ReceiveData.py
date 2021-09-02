@@ -77,9 +77,9 @@ def main():
 
         print("Waiting for data...\n")
 
-        while (not running_process and received_string != "End") :
+        device.add_data_received_callback(data_receive_callback)
 
-            device.add_data_received_callback(data_receive_callback)
+        while (not running_process and received_string != "End") :
 
             if(received_string != "void"):
 
