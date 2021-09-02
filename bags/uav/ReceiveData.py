@@ -40,53 +40,16 @@ received_string = "void"
 def data_receive_callback(xbee_message):
     global received_string
 
-    received_string = xbee_message.data.decode()
+    received_string = "void"
 
+    received_string = xbee_message.data.decode()
 
     if received_string != "void":
 
         print("From %s >> %s" % (xbee_message.remote_device.get_64bit_addr(),
                             received_string))
 
-def main():
-    global received_string
-
-    print(" +-----------------------------------------+")
-    print(" | Xbee python software, receive data and activate relay according to the message |")
-    print(" +-----------------------------------------+\n")
-
-    GPIO.setwarnings(False)
-
-    # to use Raspberry Pi board pin numbers
-    GPIO.setmode(GPIO.BOARD)
-
-    # set up the GPIO channels - one input and one output
-    GPIO.setup(GPIO_EV1, GPIO.OUT, initial = 1)
-    GPIO.setup(GPIO_EV2, GPIO.OUT, initial = 1)
-    GPIO.setup(GPIO_EV3, GPIO.OUT, initial = 1)
-    GPIO.setup(GPIO_EV4, GPIO.OUT, initial = 1)
-    
-    GPIO.setup(GPIO_PUMP, GPIO.OUT, initial = 0) 
-
-    device = XBeeDevice(PORT, BAUD_RATE)
-
-    
-
-    try:
-
-        device.open()
-        
-        while (received_string != "End") :
-
-            received_string = "void"
-
-            print("Waiting for data...\n")
-
-            device.add_data_received_callback(data_receive_callback)
-
-            if(received_string != "void"):
-
-                if(int(received_string) == 1):
+        if(int(received_string) == 1):
                     print("Activating the first EV!")
                     GPIO.output(GPIO_PUMP, GPIO.HIGH)
                     time.sleep(TIMER_PUMP)
@@ -133,6 +96,38 @@ def main():
                     GPIO.output(GPIO_EV4, GPIO.LOW)
                     time.sleep(TIMER_EV)
                     GPIO.output(GPIO_EV4, GPIO.HIGH)
+
+def main():
+    global received_string
+
+    print(" +-----------------------------------------+")
+    print(" | Xbee python software, receive data and activate relay according to the message |")
+    print(" +-----------------------------------------+\n")
+
+    GPIO.setwarnings(False)
+
+    # to use Raspberry Pi board pin numbers
+    GPIO.setmode(GPIO.BOARD)
+
+    # set up the GPIO channels - one input and one output
+    GPIO.setup(GPIO_EV1, GPIO.OUT, initial = 1)
+    GPIO.setup(GPIO_EV2, GPIO.OUT, initial = 1)
+    GPIO.setup(GPIO_EV3, GPIO.OUT, initial = 1)
+    GPIO.setup(GPIO_EV4, GPIO.OUT, initial = 1)
+    
+    GPIO.setup(GPIO_PUMP, GPIO.OUT, initial = 0) 
+
+    device = XBeeDevice(PORT, BAUD_RATE)
+
+    try:
+
+        device.open()
+        
+        while (received_string != "End") :
+
+            print("Waiting for data...\n")
+
+            device.add_data_received_callback(data_receive_callback)
 
     finally:
         if device is not None and device.is_open():
