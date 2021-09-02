@@ -35,8 +35,6 @@ GPIO_PUMP = 18
 TIMER_PUMP = 3
 TIMER_EV = 5
 
-running_process = False
-
 received_string = "void"
 
 def data_receive_callback(xbee_message):
@@ -51,7 +49,7 @@ def data_receive_callback(xbee_message):
                             received_string))
 
 def main():
-    global received_string, running_process
+    global received_string
 
     print(" +-----------------------------------------+")
     print(" | Xbee python software, receive data and activate relay according to the message |")
@@ -72,9 +70,11 @@ def main():
 
     device = XBeeDevice(PORT, BAUD_RATE)
 
-    device.open()
+    
 
     try:
+
+        device.open()
         
         while (received_string != "End") :
 
