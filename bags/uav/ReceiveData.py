@@ -74,17 +74,17 @@ def main():
 
     device.open()
 
-    while (not running_process and received_string != "End") :
+    try:
+        
+        while (received_string != "End") :
 
-        try:
-            
+            received_string = "void"
+
             print("Waiting for data...\n")
 
             device.add_data_received_callback(data_receive_callback)
 
             if(received_string != "void"):
-
-                running_process = True
 
                 if(int(received_string) == 1):
                     print("Activating the first EV!")
@@ -98,9 +98,6 @@ def main():
                     time.sleep(TIMER_EV)
                     GPIO.output(GPIO_EV1, GPIO.HIGH)
 
-                    running_process = False
-                    received_string = "void"
-
                 elif(int(received_string) == 2):
                     print("Activating the second EV!")
                     GPIO.output(GPIO_PUMP, GPIO.HIGH)
@@ -112,10 +109,6 @@ def main():
                     GPIO.output(GPIO_EV2, GPIO.LOW)
                     time.sleep(TIMER_EV)
                     GPIO.output(GPIO_EV2, GPIO.HIGH)
-
-
-                    running_process = False
-                    received_string = "void"
 
                 elif(int(received_string) == 3):
                     print("Activating the third EV!")
@@ -129,9 +122,6 @@ def main():
                     time.sleep(TIMER_EV)
                     GPIO.output(GPIO_EV3, GPIO.HIGH)
 
-                    running_process = False
-                    received_string = "void"
-
                 elif(int(received_string) == 4):
                     print("Activating the fourth EV!")
                     GPIO.output(GPIO_PUMP, GPIO.HIGH)
@@ -144,14 +134,11 @@ def main():
                     time.sleep(TIMER_EV)
                     GPIO.output(GPIO_EV4, GPIO.HIGH)
 
-                    running_process = False
-                    received_string = "void"
-
-        finally:
-            if device is not None and device.is_open():
-                device.close()
-            GPIO.cleanup()
-            print("Close the communication with ground !")
+    finally:
+        if device is not None and device.is_open():
+            device.close()
+        GPIO.cleanup()
+        print("Close the communication with ground !")
         
 if __name__ == '__main__':
     main()
