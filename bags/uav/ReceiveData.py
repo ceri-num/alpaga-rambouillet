@@ -147,12 +147,11 @@ def main():
                     running_process = False
                     received_string = "void"
 
-    print("Close the communication with ground !")
-
-    finally:
-        if device is not None and device.is_open():
-            device.close()
-        GPIO.cleanup()
+        finally:
+            if device is not None and device.is_open():
+                device.close()
+            GPIO.cleanup()
+            print("Close the communication with ground !")
         
 if __name__ == '__main__':
     main()
