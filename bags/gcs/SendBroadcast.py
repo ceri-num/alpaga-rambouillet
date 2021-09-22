@@ -14,6 +14,8 @@
 
 from digi.xbee.devices import XBeeDevice
 
+import time
+
 # TODO: Replace with the serial port where your local module is connected to.
 PORT = "/dev/ttyUSB0"
 # TODO: Replace with the baud rate of your local module.
@@ -42,7 +44,10 @@ def main():
         	
 			print("Sending broadcast data: %s..." % DATA_TO_SEND)
 
-			device.send_data_broadcast(DATA_TO_SEND)
+			for i in range(5):
+
+				device.send_data_broadcast(DATA_TO_SEND)
+				time.sleep(0.5)
 
 			print("Success")
 
